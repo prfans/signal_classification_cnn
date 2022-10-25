@@ -14,7 +14,7 @@ from torch.optim import lr_scheduler
 
 from model_aux import save_model
 from utils import get_network, get_training_dataloader, get_test_dataloader
-from FocalLoss import FocalLoss
+# from FocalLoss import FocalLoss
 
 # 模型训练
 def train_epoch(net, loss_function, optimizer, training_loader, epoch):
@@ -165,8 +165,8 @@ def train_and_eval(hyp):
         model = model.cuda()
 
     # 训练参数设置
-    # loss_function = nn.CrossEntropyLoss()
-    loss_function = FocalLoss(class_num=14, gamma=2)
+    loss_function = nn.CrossEntropyLoss()
+    # loss_function = FocalLoss(class_num=14, gamma=2)
     # 如果用center_loss则center_loss的参数需要更新
 
     test_best_acc = 0.0
