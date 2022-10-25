@@ -58,8 +58,6 @@ if not os.path.exists(save_dir_ok):
 
 if __name__ == "__main__":
     model = dla34(num_classes=14)
-    # model = shufflenetv2(num_classes=14)
-    # model = alexnet1d(num_classes=14)
     model.eval()
 
     # 加载预训练模型
