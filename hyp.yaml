@@ -1,0 +1,18 @@
+#
+#
+# Hyperparameters
+
+lr0: 0.005  # initial learning rate (SGD=1E-2, Adam=1E-3)
+lrf: 0.1  # final OneCycleLR learning rate (lr0 * lrf)
+rho: 0.05 # SGD rho
+momentum: 0.9  # SGD momentum/Adam beta1
+weight_decay: 0.0005  # optimizer weight decay 5e-4
+hsv_h: 0.01  # image HSV-Hue augmentation (fraction)
+hsv_s: 1.2  # image HSV-Saturation augmentation (fraction)
+hsv_v: 1.2  # image HSV-Value augmentation (fraction)
+degrees: 15  # image rotation (+/- deg)
+brightness_delta: 0.2 # brightness delta
+contrast_delta: 0.3 # contrast delta
+conf: 0.99 # conf thresh
+
+
