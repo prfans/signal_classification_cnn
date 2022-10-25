@@ -67,7 +67,7 @@ def get_training_dataloader(path, args, hyp):
 
     train_set = TxtFolder(img_paths=path, img_transform=transform_train,
                           class_num=args.class_num, max_data_num_c=args.max_data_num_c)
-    data_loader = DataLoader(train_set, shuffle=args.shuffle, num_workers=args.num_workers,
+    data_loader = DataLoader(train_set, shuffle=not args.no_shuffle, num_workers=args.num_workers,
                              batch_size=args.b, drop_last=args.drop_last)
 
     return data_loader
@@ -85,7 +85,7 @@ def get_test_dataloader(path, args, hyp):
     print('##########################load images############################')
     test_set = TxtFolder(img_paths=path, img_transform=transform_test,
                          class_num=args.class_num, max_data_num_c=args.max_data_num_c)
-    data_loader = DataLoader(test_set, shuffle=args.shuffle, num_workers=args.num_workers, batch_size=args.b)
+    data_loader = DataLoader(test_set, shuffle=not args.no_shuffle, num_workers=args.num_workers, batch_size=args.b)
 
     return data_loader
 

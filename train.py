@@ -24,7 +24,7 @@ def train_epoch(net, loss_function, optimizer, training_loader, epoch):
     start = time.time()
     net.train()
     for batch_index, (images, labels) in enumerate(training_loader):
-        if args.use_gpu:
+        if not args.no_gpu:
             labels = labels.cuda()
             images = images.cuda()
 
@@ -70,7 +70,7 @@ def eval_training(net, loss_function, test_loader, epoch, conf):
 
     for (images, labels) in test_loader:
 
-        if args.use_gpu:
+        if not args.no_gpu:
             images = images.cuda()
             labels = labels.cuda()
 
@@ -156,7 +156,7 @@ def train_and_eval(hyp):
         optimizer = torch.optim.SGD(model.parameters(), lr=hyp['lr0'], momentum=hyp['momentum'], weight_decay=hyp['weight_decay'])
         lr_sch = lr_scheduler.ReduceLROnPlateau(optimizer, mode="max", factor=0.5, patience=50, verbose=True)
 
-    if args.use_gpu:
+    if not args.no_gpu:
         if len(args.gpu) > 1:
             model = torch.nn.DataParallel(model)
             # torch.distributed.init_process_group(backend='nccl', init_method='tcp://localhost:23456', rank=0, world_size=1)
@@ -231,16 +231,16 @@ if __name__ == '__main__':
     parser.add_argument('-net', type=str, default="dla34", required=False, help='net type')
 
     parser.add_argument('-EPOCH', type=int, default=10000, help='EPOCH')
-    parser.add_argument('-use_gpu', action='store_true', default=True, help='use gpu or not')
-    parser.add_argument('-gpu', type=str, default='0,1,2,3', help='gpus')
-    parser.add_argument('-b', type=int, default=256, help='batch size for dataloader')
+    parser.add_argument('-no_gpu', action='store_true', help='use gpu or not')
+    parser.add_argument('-gpu', type=str, default='0', help='gpus')
+    parser.add_argument('-b', type=int, default=128, help='batch size for dataloader')
     parser.add_argument('-warm', type=int, default=1, help='warm up training phase')
-    parser.add_argument('-resume', action='store_true', default=True, help='resume training')
+    parser.add_argument('-resume', action='store_true', help='resume training')
     parser.add_argument('-weights', type=str, default="./weights/latest.pt", required=False, help='weights')
     parser.add_argument('-save_folder', type=str, default="./weights", required=False, help='save_folder')
 
     parser.add_argument('-num_workers', type=int, default=8, help='num_workers')
-    parser.add_argument('-shuffle', action='store_true', default=True, help='shuffle')
+    parser.add_argument('-no_shuffle', action='store_true', help='shuffle')
     parser.add_argument('-hyp', type=str, default=r"./hyp.yaml", help='Hyperparameters file')
     parser.add_argument('-class_num', type=int, default=14, help='class_num')
     parser.add_argument('-image_size', type=int, default=124, required=False, help='image_size')
@@ -254,11 +254,11 @@ if __name__ == '__main__':
     # 模型参数微调时使用的参数文件
     evolve_weight = None
     parser.add_argument('-evolve_weight', type=str, default=evolve_weight, help='evolve_weight')
-    parser.add_argument('-update_evolve', action='store_true', default=False, help='update_evolve')
+    parser.add_argument('-update_evolve', action='store_true', help='update_evolve')
 
     # 训练集和测试集
-    default_trains = [r"/data/data1", r"/data/data2"]
-    default_tests = [r"/data/data3", r"/data/data4"]
+    default_trains = [r"/data1/", r"/data2"]
+    default_tests = [r"/data3/", r"/data4"]
     parser.add_argument('-train', type=str, default=default_trains, help='train set')
     parser.add_argument('-test', type=list, default=default_tests, help='test sets')
 
@@ -268,7 +268,7 @@ if __name__ == '__main__':
     printf_train_test_sets(args)
 
     # 设置gpu
-    if args.use_gpu:
+    if not args.no_gpu:
         os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
 
     print('==> hyperparameters: ', args.hyp)
