@@ -142,9 +142,9 @@ thop==0.0.31.post2005241907
 threadpoolctl==2.2.0
 tifffile==2020.9.3
 toml==0.10.2
-torch @ file:///data/xingyueqi/bak_package/torch-1.7.1%2Bcu101-cp36-cp36m-linux_x86_64.whl
-torchaudio @ file:///data/xingyueqi/bak_package/torchaudio-0.7.2-cp36-cp36m-linux_x86_64.whl
-torchvision @ file:///data/xingyueqi/bak_package/torchvision-0.8.2%2Bcu101-cp36-cp36m-linux_x86_64.whl
+torch==1.7.1
+torchaudio==0.7.2
+torchvision==0.8.2
 tqdm==4.61.2
 typing==3.7.4.3
 typing-extensions==3.10.0.0
